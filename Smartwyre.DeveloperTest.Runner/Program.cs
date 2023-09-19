@@ -2,58 +2,31 @@
 using Microsoft.Extensions.Hosting;
 using Smartwyre.DeveloperTest.Application;
 using Smartwyre.DeveloperTest.Application.IncentivesLogic;
+using Smartwyre.DeveloperTest.Application.IncentivesLogic.Factory;
 using Smartwyre.DeveloperTest.Infrastructure;
-using Smartwyre.DeveloperTest.Runner;
+using Smartwyre.DeveloperTest.Model;
 using System;
 
-using IHost host = CreateHostBuilder(args).Build();
-using var scope = host.Services.CreateScope();
+HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+builder.Services.AddTransient<IProductDataStore, ProductDataStore>();
+builder.Services.AddTransient<IRebateDataStore, RebateDataStore>();
+builder.Services.AddTransient<IIncentiveLogic, AmountPerUomTypeLogic>();
+builder.Services.AddTransient<IIncentiveLogic, FixedCashAmountTypeLogic>();
+builder.Services.AddTransient<IIncentiveLogic, FixedRateRebateTypeLogic>();
+builder.Services.AddTransient<IIncetivesLogicFactory, IncentivesLogicFactory>();
+builder.Services.AddTransient<IRebateService, RebateService>();
+using IHost host = builder.Build();
 
-var services = scope.ServiceProvider;
+RunProcess(host.Services);
 
-try
+await host.RunAsync();
+
+// Service are not being added to the container
+static void RunProcess(IServiceProvider hostProvider)
 {
-    host.Services.GetRequiredService<App>().Run(args);
+    using IServiceScope serviceScope = hostProvider.CreateScope();
+    IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+
+    IRebateService rebateService = serviceProvider.GetRequiredService<IRebateService>();
+    rebateService.Calculate(new CalculateRebateRequest());
 }
-catch (Exception ex)
-{
-    Console.WriteLine(ex.Message);
-}
-
-IHostBuilder CreateHostBuilder(string[] args)
-{
-    return Host.CreateDefaultBuilder()
-        .ConfigureServices((_, services) =>
-        {
-            services.AddTransient<IRebateService, RebateService>();
-            services.AddTransient<IProductDataStore, ProductDataStore>();
-            services.AddTransient<IRebateDataStore, RebateDataStore>();
-
-            services.AddTransient<IIncentiveLogic, AmountPerUomTypeLogic>();
-            services.AddTransient<IIncentiveLogic, FixedCashAmountTypeLogic>();
-            services.AddTransient<IIncentiveLogic, FixedRateRebateTypeLogic>();
-
-            services.AddSingleton<App>();
-        });
-}
-
-//private static IHost CreateHost() => Host
-//    .CreateDefaultBuilder()
-//    .ConfigureServices((context, services) => 
-//    { 
-//        services.AddTransient<IRebateService, RebateService>();
-//        services.AddTransient<IProductDataStore, ProductDataStore>();
-//        services.AddTransient<IRebateDataStore, RebateDataStore>();
-
-//        services.AddTransient<IIncentiveLogic, AmountPerUomTypeLogic>();
-//        services.AddTransient<IIncentiveLogic, FixedCashAmountTypeLogic>();
-//        services.AddTransient<IIncentiveLogic, FixedRateRebateTypeLogic>();
-//    })
-//    .Build();
-
-//static void Main(string[] args)
-//{
-//    IHost host = CreateHost();
-//    IRebateService rebateService = ActivatorUtilities.CreateInstance<RebateService>(host.Services);
-//    rebateService.Calculate(new CalculateRebateRequest());
-//}
