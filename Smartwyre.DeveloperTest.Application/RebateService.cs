@@ -7,14 +7,14 @@ namespace Smartwyre.DeveloperTest.Application
 {
     public class RebateService : IRebateService
     {
-        private readonly RebateDataStore _rebateDataStore;
-        private readonly ProductDataStore _productDataStore;
+        private readonly IRebateDataStore _rebateDataStore;
+        private readonly IProductDataStore _productDataStore;
         private readonly IIncetivesLogicFactory _incidentivesLogicFactory;
 
-        public RebateService(RebateDataStore dataStore, ProductDataStore productDataStore, IIncetivesLogicFactory incidentivesLogicFactory)
+        public RebateService(IRebateDataStore rebateDataStore, IProductDataStore productDataStore, IIncetivesLogicFactory incidentivesLogicFactory)
         {
 
-            _rebateDataStore = dataStore;
+            _rebateDataStore = rebateDataStore;
             _productDataStore = productDataStore;
             _incidentivesLogicFactory = incidentivesLogicFactory;
         }
@@ -31,7 +31,7 @@ namespace Smartwyre.DeveloperTest.Application
             }
 
             var incentiveLogic = _incidentivesLogicFactory.GetIncentiveLogic(rebate.Incentive);
-            if (incentiveLogic is null)
+            if (incentiveLogic is null) 
             {
                 return rebateResult;
             }
@@ -40,8 +40,7 @@ namespace Smartwyre.DeveloperTest.Application
 
             if (rebateResult.Success)
             {
-                var storeRebateDataStore = new RebateDataStore();
-                storeRebateDataStore.StoreCalculationResult(rebate, amount);
+                _rebateDataStore.StoreCalculationResult(rebate, amount);
             }
 
             return rebateResult;

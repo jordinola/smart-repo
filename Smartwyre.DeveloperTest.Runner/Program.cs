@@ -21,7 +21,6 @@ RunProcess(host.Services);
 
 await host.RunAsync();
 
-// Service are not being added to the container
 static void RunProcess(IServiceProvider hostProvider)
 {
     using IServiceScope serviceScope = hostProvider.CreateScope();
