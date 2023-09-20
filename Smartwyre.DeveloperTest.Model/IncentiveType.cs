@@ -4,7 +4,9 @@
     {
         FixedRateRebate,
         AmountPerUom,
-        FixedCashAmount
+        FixedCashAmount,
+        // Added for testing purposes
+        NotImplemented
     }
 
 }

@@ -16,7 +16,5 @@ namespace Smartwyre.DeveloperTest.Application.IncentivesLogic
             return (true, product.Price * rebate.Percentage * volume);
             
         }
-
-        public IncentiveType GetIncentiveType() => IncentiveType.AmountPerUom;
     }
 }

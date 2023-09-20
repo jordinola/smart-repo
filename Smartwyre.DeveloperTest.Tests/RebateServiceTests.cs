@@ -37,7 +37,7 @@ public class RebateServiceTests
         Assert.False(result.Success);
         rebateDataStoreMock.Verify(x => x.GetRebate(It.IsAny<string>()), Times.Once());
         productDataStoreMock.Verify(x => x.GetProduct(It.IsAny<string>()), Times.Once());
-        rebateDataStoreMock.Verify(x => x.StoreCalculationResult(It.IsAny<Rebate>(), It.IsAny<decimal>()), Times.Never());
+        rebateDataStoreMock.Verify(x => x.UpdateRebateAmount(It.IsAny<string>(), It.IsAny<decimal>()), Times.Never());
         incentivesLogicFactoryMock.Verify(x => x.GetIncentiveLogic(It.IsAny<IncentiveType>()), Times.Never());
     }
 
@@ -67,7 +67,7 @@ public class RebateServiceTests
         Assert.False(result.Success);
         rebateDataStoreMock.Verify(x => x.GetRebate(It.IsAny<string>()), Times.Once());
         productDataStoreMock.Verify(x => x.GetProduct(It.IsAny<string>()), Times.Once());
-        rebateDataStoreMock.Verify(x => x.StoreCalculationResult(It.IsAny<Rebate>(), It.IsAny<decimal>()), Times.Never());
+        rebateDataStoreMock.Verify(x => x.UpdateRebateAmount(It.IsAny<string>(), It.IsAny<decimal>()), Times.Never());
         incentivesLogicFactoryMock.Verify(x => x.GetIncentiveLogic(It.IsAny<IncentiveType>()), Times.Never());
     }
 
@@ -101,7 +101,7 @@ public class RebateServiceTests
         Assert.False(result.Success);
         rebateDataStoreMock.Verify(x => x.GetRebate(It.IsAny<string>()), Times.Once());
         productDataStoreMock.Verify(x => x.GetProduct(It.IsAny<string>()), Times.Once());
-        rebateDataStoreMock.Verify(x => x.StoreCalculationResult(It.IsAny<Rebate>(), It.IsAny<decimal>()), Times.Never());
+        rebateDataStoreMock.Verify(x => x.UpdateRebateAmount(It.IsAny<string>(), It.IsAny<decimal>()), Times.Never());
         incentivesLogicFactoryMock.Verify(x => x.GetIncentiveLogic(It.IsAny<IncentiveType>()), Times.Once());
     }
 
@@ -142,7 +142,7 @@ public class RebateServiceTests
         productDataStoreMock.Verify(x => x.GetProduct(It.IsAny<string>()), Times.Once());
         incentiveLogicMock.Verify(x => x.Calculate(It.IsAny<Product>(), It.IsAny<Rebate>(), It.IsAny<decimal>()), Times.Once());
         incentivesLogicFactoryMock.Verify(x => x.GetIncentiveLogic(It.IsAny<IncentiveType>()), Times.Once());
-        rebateDataStoreMock.Verify(x => x.StoreCalculationResult(It.IsAny<Rebate>(), It.IsAny<decimal>()), Times.Never());
+        rebateDataStoreMock.Verify(x => x.UpdateRebateAmount(It.IsAny<string>(), It.IsAny<decimal>()), Times.Never());
     }
 
     [Fact]
@@ -158,7 +158,7 @@ public class RebateServiceTests
             .Returns(new Rebate());
 
         rebateDataStoreMock
-            .Setup(x => x.StoreCalculationResult(It.IsAny<Rebate>(), It.IsAny<decimal>()));
+            .Setup(x => x.UpdateRebateAmount(It.IsAny<string>(), It.IsAny<decimal>()));
 
         productDataStoreMock
             .Setup(x => x.GetProduct(It.IsAny<string>()))
@@ -185,6 +185,6 @@ public class RebateServiceTests
         productDataStoreMock.Verify(x => x.GetProduct(It.IsAny<string>()), Times.Once());
         incentiveLogicMock.Verify(x => x.Calculate(It.IsAny<Product>(), It.IsAny<Rebate>(), It.IsAny<decimal>()), Times.Once());
         incentivesLogicFactoryMock.Verify(x => x.GetIncentiveLogic(It.IsAny<IncentiveType>()), Times.Once());
-        rebateDataStoreMock.Verify(x => x.StoreCalculationResult(It.IsAny<Rebate>(), It.IsAny<decimal>()), Times.Once());
+        rebateDataStoreMock.Verify(x => x.UpdateRebateAmount(It.IsAny<string>(), It.IsAny<decimal>()), Times.Once());
     }
 }

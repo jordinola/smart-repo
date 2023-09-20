@@ -15,7 +15,5 @@ namespace Smartwyre.DeveloperTest.Application.IncentivesLogic
 
             return (true, rebate.Amount * volume);
         }
-
-        public IncentiveType GetIncentiveType() => IncentiveType.FixedCashAmount;
     }
 }

@@ -14,7 +14,5 @@ namespace Smartwyre.DeveloperTest.Application.IncentivesLogic
 
             return (true, rebate.Amount);
         }
-
-        public IncentiveType GetIncentiveType() => IncentiveType.FixedRateRebate;
     }
 }

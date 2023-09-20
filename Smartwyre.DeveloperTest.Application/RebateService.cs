@@ -40,7 +40,7 @@ namespace Smartwyre.DeveloperTest.Application
 
             if (rebateResult.Success)
             {
-                _rebateDataStore.StoreCalculationResult(rebate, amount);
+                _rebateDataStore.UpdateRebateAmount(rebate.Identifier, amount);
             }
 
             return rebateResult;

@@ -8,8 +8,8 @@ using Smartwyre.DeveloperTest.Model;
 using System;
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
-builder.Services.AddTransient<IProductDataStore, ProductDataStore>();
-builder.Services.AddTransient<IRebateDataStore, RebateDataStore>();
+builder.Services.AddSingleton<IProductDataStore, ProductDataStore>();
+builder.Services.AddSingleton<IRebateDataStore, RebateDataStore>();
 builder.Services.AddTransient<IIncentiveLogic, AmountPerUomTypeLogic>();
 builder.Services.AddTransient<IIncentiveLogic, FixedCashAmountTypeLogic>();
 builder.Services.AddTransient<IIncentiveLogic, FixedRateRebateTypeLogic>();
@@ -27,5 +27,5 @@ static void RunProcess(IServiceProvider hostProvider)
     IServiceProvider serviceProvider = serviceScope.ServiceProvider;
 
     IRebateService rebateService = serviceProvider.GetRequiredService<IRebateService>();
-    rebateService.Calculate(new CalculateRebateRequest());
+    rebateService.Calculate(new CalculateRebateRequest { RebateIdentifier = "1", ProductIdentifier = "2", Volume = 1});
 }
